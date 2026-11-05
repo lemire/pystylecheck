@@ -177,6 +177,8 @@ OpenAI Codex CLI:
   codex mcp add pystylecheck -- {cmd}
 Google Gemini CLI:
   gemini mcp add --scope user pystylecheck {cmd}
+xAI Grok CLI:
+  grok mcp add pystylecheck -- {cmd}
 Cursor:
   cursor --add-mcp '{{"name":"pystylecheck","command":"{exe}","args":{args}}}'
 VS Code (Copilot agent mode):

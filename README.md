@@ -2,7 +2,7 @@
 
 A style checker for LaTeX papers, reports and theses that understands LaTeX.
 Use it from the command line, in CI, or from an AI agent over MCP (Claude Code,
-Codex, Gemini CLI, Cursor, VS Code...).
+Codex, Gemini CLI, Grok CLI, Cursor, VS Code...).
 
 pystylecheck is a **superset of [style-check.rb](https://github.com/nspring/style-check)**.
 It reads the same rule files from the same places and reproduces style-check.rb's
@@ -346,6 +346,20 @@ codex mcp add pystylecheck -- uvx --from git+https://github.com/lemire/pystylech
 
 ```bash
 gemini mcp add --scope user pystylecheck uvx --from git+https://github.com/lemire/pystylecheck pystylecheck mcp
+```
+
+### xAI Grok CLI
+
+```bash
+grok mcp add pystylecheck -- uvx --from git+https://github.com/lemire/pystylecheck pystylecheck mcp
+```
+
+Or by hand in `~/.grok/config.toml`:
+
+```toml
+[mcp_servers.pystylecheck]
+command = "uvx"
+args = ["--from", "git+https://github.com/lemire/pystylecheck", "pystylecheck", "mcp"]
 ```
 
 ### Cursor, VS Code and other clients
