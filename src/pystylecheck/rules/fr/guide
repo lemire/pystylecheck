@@ -1,0 +1,43 @@
+# Règles tirées du Guide de rédaction des rapports, des mémoires et des thèses (Daniel Lemire).
+# Format style-check.rb : expression % type explication. Une explication finissant par « ? »
+# est un avertissement (n'affecte pas le code de sortie).
+# pystylecheck: lang=fr
+
+# Mots inutilement complexes
+méthodologies?                  % phrase écrivez « méthode » : la méthodologie est l'étude des méthodes?
+problématiques?                 % phrase le mot « problème » suffit souvent : une problématique est l'ensemble des problèmes d'un sujet?
+limitations?                    % phrase préférez « limite » à « limitation »?
+optimale?s?                     % phrase « optimal » signifie que personne ne pourrait faire mieux : êtes-vous certain ??
+utilis(er|ons|ent|é|ée|és|ées) (l'|l’|la |le |les )\w+(tion|ment)s?  % phrase utilisez un verbe fort : « nous identifions » plutôt que « nous utilisons l'identification »?
+
+# Adverbes
+très                            % phrase évitez les adverbes : « très » est généralement peu utile en science?
+beaucoup                        % phrase évitez les adverbes, quantifiez plutôt?
+fortement                       % phrase évitez les adverbes à moins qu'ils n'aient un sens technique précis?
+extrêmement                     % phrase évitez les adverbes, quantifiez plutôt?
+vraiment                        % phrase évitez les adverbes?
+énormément                      % phrase évitez les adverbes, quantifiez plutôt?
+
+# Négation
+ne pas (utiliser|faire|avoir|être|prendre|mettre|oublier) % phrase minimisez la négation : « éviter » se comprend mieux que « ne pas utiliser »?
+
+# Forme passive
+(fut|furent|a été|ont été|avait été|avaient été) [a-zàâçéèêëîïôûùüÿ]+(é|ée|és|ées|i|ie|is|ies|u|ue|us|ues)\b % phrase préférez la forme active : « j'ai démarré l'ordinateur » plutôt que « l'ordinateur fut démarré »?
+
+# Positions dans le texte : faites référence par un numéro
+ci-dessous                      % phrase n'indiquez pas de position dans le texte : faites référence par un numéro (figure~\ref{}, section~\ref{})?
+ci-dessus                       % phrase n'indiquez pas de position dans le texte : faites référence par un numéro?
+plus (haut|bas)                 % phrase n'indiquez pas de position dans le texte (« plus haut ») : faites référence par un numéro?
+(la|le|les) (figures?|tableaux?|sections?|chapitres?|équations?) (suivante|suivant|suivantes|suivants|précédente|précédent|précédentes|précédents) % phrase une figure ou un tableau ne précède ni ne suit le texte : faites référence par un numéro
+(au|à la|dans la|dans le) (section|chapitre|paragraphe) (suivante?|précédente?) % phrase faites référence à une section par son numéro
+(voici|voilà) (la|le|les|une|un) (figures?|tableaux?|graphiques?) % phrase on ne présente pas une figure en la plaçant dans le texte : « voici la figure » est à éviter
+considérons (la|le|les) (figures?|tableaux?) (suivante?s?|ci-dessous) % phrase on ne présente pas un tableau en le plaçant dans le texte
+(en haut|en bas) (de la|du) (figure|tableau|page) % phrase les figures flottent : n'indiquez pas leur position?
+
+# Unités : jamais de « s » au pluriel
+\b\d+[ ~]?(kgs|kms|cms|mms|secs|mins|hrs|Mos|Gos|Kos)\b % syntax les symboles d'unité ne prennent jamais de « s » au pluriel
+
+# Ponctuation
+[ ]\.[ \n]                      % syntax il n'y a jamais d'espace avant le point
+,,                              % syntax double virgule
+\.\.\.                          % syntax utilisez \dots plutôt que trois points

@@ -1,0 +1,11 @@
+# English counterparts of rules from Daniel Lemire's writing guide.
+# pystylecheck: lang=en
+
+methodology                     % phrase you probably mean "method": methodology is the study of methods?
+problematic                     % phrase "problem" is often enough?
+optimal                         % phrase "optimal" means nobody could do better: are you sure??
+the (figure|table|section|chapter|equation)s? (below|above) % phrase figures float: refer to them by number (Figure~\ref{...})
+the (above|below|following|previous) (figure|table)s?    % phrase figures float: refer to them by number (Figure~\ref{...})
+(shown|see|given|listed|illustrated) (below|above)        % phrase refer to elements by number, not by position?
+here is the (figure|table)      % phrase do not introduce a figure in the text: refer to it by number
+\b\d+[ ~]?(kgs|kms|cms|mms|secs|mins|hrs)\b              % syntax unit symbols never take a plural "s"

@@ -1,0 +1,45 @@
+[project]
+name = "pystylecheck"
+version = "0.1.0"
+description = "A LaTeX-aware style checker for papers and theses: a superset of style-check.rb, usable from the command line and by AI agents (MCP)"
+readme = "README.md"
+license = "GPL-3.0-or-later"
+license-files = ["LICENSE"]
+keywords = ["latex", "style", "lint", "writing", "thesis", "style-check", "lacheck", "mcp"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Science/Research",
+    "Natural Language :: English",
+    "Natural Language :: French",
+    "Programming Language :: Python :: 3",
+    "Topic :: Text Processing :: Markup :: LaTeX",
+]
+authors = [
+    { name = "Daniel Lemire", email = "daniel@lemire.me" }
+]
+requires-python = ">=3.11"
+dependencies = [
+    "mcp>=1.10",
+    "pylatexenc>=2.11",
+]
+
+[project.urls]
+Homepage = "https://github.com/lemire/pystylecheck"
+Issues = "https://github.com/lemire/pystylecheck/issues"
+
+[project.scripts]
+pystylecheck = "pystylecheck.cli:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.2.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["tests"]
