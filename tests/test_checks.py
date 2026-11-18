@@ -210,3 +210,18 @@ def test_inconsistent_spelling_only_in_headings(check):
     src = "\\section{Fast Compile-Time Hashing}\nText. More. Again.\n\\section{Compile-time Tricks}\nText. More. Again.\n\\section{Compiletime Done}\nEnd. Fin. Yes."
     fs = only(check(src, only=["inconsistent-spelling"]), "inconsistent-spelling")
     assert len(fs) == 1
+
+
+# -- self-referential openers ("In this paper, we") -------------------------------
+
+def test_in_this_paper_we(check):
+    src = ("In this paper, we show X. In this article we show Y. In this section, I discuss Z. "
+           "This work presents W. This thesis studies V.")
+    fs = [f for f in only(check(src), "phrase") if "filler" in f.message]
+    assert len(fs) == 5 and all(f.severity == "warning" for f in fs)
+
+
+def test_this_paper_not_flagged_elsewhere(check):
+    fs = [f for f in only(check("The results of this paper hold. In this work-in-progress, data vary."), "phrase")
+          if "filler" in f.message]
+    assert not fs

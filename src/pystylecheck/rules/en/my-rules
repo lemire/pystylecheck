@@ -30,7 +30,8 @@ More importantly,     % phrase probably means the order is wrong: put important 
 todo                  % ignoredcommand
 texttt                  % ignoredcommand
 due to space constraints % phrase don't whine.
-this paper % phrase can be ambiguous if talking about someone else's paper whether you mean the one youre writing or the one you're talking about..
+In this (paper|article|work|study|thesis|chapter|section|report|note),? (we|I) % phrase often filler: start with the claim ("We show..."); "this paper" is also ambiguous next to someone else's paper?
+This (paper|article|work|study|thesis|chapter|section|report|note) (presents|proposes|shows|describes|introduces|investigates|explores|discusses|examines|studies|demonstrates) % phrase often filler: state the contribution directly ("We show..."); "this paper" is also ambiguous next to someone else's paper?
 the above             % phrase horrible phrase that must be expunged.  you might use "these" instead, but best to make the sentence stand alone.
 referred to above     % phrase "these".
 (all|the|of) [0-9][ ] %  phrase use words for numbers in phrases.
