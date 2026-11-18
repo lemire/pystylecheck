@@ -40,7 +40,11 @@ use the CLI; the workflow is the same.
 4. **Structure findings** (`heading-without-paragraph`, `short-section`,
    `unreferenced-float`) usually need the author: when there is no obvious fix, tell
    the user rather than inventing content.
-5. Use `explain_check` (or `pystylecheck --explain <check>`) when a finding is unclear.
+5. **AI writing patterns** (`ai-*` checks, category `ai-writing`) flag wording common
+   in AI-generated text (*delve into*, *I hope this helps*, *could potentially*).
+   Chatbot leftovers and placeholders (errors) must go. For the others, suggest a
+   plainer wording; don't rewrite the author's prose wholesale.
+6. Use `explain_check` (or `pystylecheck --explain <check>`) when a finding is unclear.
 
 ## False positives
 

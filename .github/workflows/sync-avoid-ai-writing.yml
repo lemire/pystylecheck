@@ -1,0 +1,61 @@
+# Weekly: refresh the bundled avoid-ai-writing patterns and open a pull request
+# when they changed. The pull request says whether the tests pass: they fail when
+# upstream adds a gate (a rule beyond a regex) that pystylecheck does not implement.
+name: sync avoid-ai-writing
+
+on:
+  schedule:
+    - cron: "17 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - uses: astral-sh/setup-uv@v6
+      - name: Sync
+        id: sync
+        run: |
+          python3 scripts/sync_avoid_ai_writing.py | tee sync.log
+          if git diff --quiet -- src/pystylecheck/data; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Test
+        if: steps.sync.outputs.changed == 'true'
+        id: test
+        continue-on-error: true
+        run: uv run pytest -q 2>&1 | tail -40 | tee test.log; exit "${PIPESTATUS[0]}"
+      - name: Open a pull request
+        if: steps.sync.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          branch="sync-avoid-ai-writing"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -B "$branch"
+          git add src/pystylecheck/data
+          git commit -m "Sync avoid-ai-writing patterns" -m "$(cat sync.log)"
+          git push --force origin "$branch"
+          {
+            echo "Automatic sync of the bundled [avoid-ai-writing](https://github.com/conorbronsdon/avoid-ai-writing) patterns."
+            echo
+            echo '```'; cat sync.log; echo '```'
+            echo
+            echo "Tests: **${{ steps.test.outcome }}**"
+            echo
+            echo '```'; cat test.log; echo '```'
+          } > body.md
+          gh pr view "$branch" --json number >/dev/null 2>&1 \
+            && gh pr edit "$branch" --body-file body.md \
+            || gh pr create --head "$branch" --title "Sync avoid-ai-writing patterns" --body-file body.md

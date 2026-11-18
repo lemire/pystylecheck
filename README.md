@@ -104,6 +104,7 @@ The rules from the style-check rule files are reported under their kind: `phrase
 
 | id | what | severity | lang | from |
 |---|---|---|---|---|
+| `ai-*` | Patterns typical of AI-generated prose ("delve into", "I hope this helps", "it isn't just X, it's Y"): see [below](#ai-writing-patterns) | error to info | en | avoid-ai-writing |
 | `abbreviation-spacing` | After an abbreviation inside a sentence, use `\ ` or `~` (English spacing) | warning | en | pystylecheck |
 | `acronym-in-heading` | Acronyms in titles and headings | warning | fr | guide |
 | `at-in-macro` | @ in macro names outside `\makeatletter ... \makeatother` | error | all | lacheck |
@@ -171,6 +172,45 @@ The rules from the style-check rule files are reported under their kind: `phrase
 (`src/pystylecheck/rules/fr/guide`) adds its vocabulary advice: *méthodologie* →
 *méthode*, *problématique*, adverbs such as *très*, the passive voice, negation,
 and position words such as *ci-dessous* and *voici la figure*.
+
+### AI writing patterns
+
+The `ai-*` checks flag the patterns listed by Conor Bronsdon's
+[avoid-ai-writing](https://github.com/conorbronsdon/avoid-ai-writing): AI vocabulary
+(*delve*, *tapestry*, *showcase*), chatbot leftovers (*I hope this helps*, unfilled
+`[Insert ...]` placeholders), vague attribution (*experts believe*), hedge stacks
+(*could potentially*), negative parallelism (*it isn't just fast, it's elegant*) and
+about forty other types. Each type is a check (`ai-tier1`, `ai-chatbot`,
+`ai-hedge-stack`...; `pystylecheck --list-checks` lists them), and they share the
+category `ai-writing`:
+
+```bash
+pystylecheck --disable ai-writing main.tex       # none of them
+pystylecheck --only ai-writing --min-severity info main.tex   # only them
+```
+
+As with the other checks, nothing is reported in math, code, URLs or comments. The
+severities follow upstream's Vale style: chatbot artifacts are errors, AI vocabulary is
+a warning, and transitions such as *moreover* are notes (`info`), hidden unless you
+pass `--min-severity info`. Terms with a technical meaning (*robust*, *leverage*,
+*ecosystem*, *unpack*...) are not flagged. Rules that count (a word cluster in a
+paragraph, a word overused in the document, three confidence markers) count over the
+whole document, `\input` files included.
+
+The patterns are not copied by hand. `src/pystylecheck/data/avoid_ai_writing.json`
+is generated from the `PATTERN_TABLES` export of upstream's detector and records the
+upstream version and commit. To refresh it (needs git and Node.js):
+
+```bash
+python3 scripts/sync_avoid_ai_writing.py            # latest main; --ref v3.39.0 for a tag
+uv run pytest
+```
+
+A weekly GitHub Action (`.github/workflows/sync-avoid-ai-writing.yml`) does the same
+and opens a pull request when the patterns change. New regex patterns and new types
+need no code. When upstream adds a rule that needs more than a regex (a *gate*), that
+rule is left out and `tests/test_aiwriting.py` fails until the gate is implemented in
+`src/pystylecheck/checks/aiwriting.py`.
 
 ### How it compares with style-check.rb and lacheck
 
@@ -391,4 +431,6 @@ GPL-3.0-or-later. The rule files in `src/pystylecheck/rules/en` and the test fil
 in `tests/data/style-check` come from Neil Spring's
 [style-check](https://github.com/nspring/style-check) (GPL-3.0). The checks marked
 "lacheck" were rewritten from the behaviour of Kresten Krab Thorup's lacheck; no
-lacheck code is included.
+lacheck code is included. The AI writing patterns in `src/pystylecheck/data/avoid_ai_writing.json` come
+from Conor Bronsdon's [avoid-ai-writing](https://github.com/conorbronsdon/avoid-ai-writing)
+(MIT license, `src/pystylecheck/data/avoid_ai_writing.LICENSE`).

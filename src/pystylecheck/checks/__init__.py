@@ -85,7 +85,7 @@ def _load_builtin() -> None:
     if _builtin_loaded:
         return
     _builtin_loaded = True
-    from . import stylecheck, prose, structure, references, floats, mathcheck, typography, consistency, lacheck  # noqa: F401
+    from . import stylecheck, prose, structure, references, floats, mathcheck, typography, consistency, lacheck, aiwriting  # noqa: F401
 
     try:
         from importlib.metadata import entry_points
